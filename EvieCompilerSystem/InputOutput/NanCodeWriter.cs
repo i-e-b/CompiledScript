@@ -240,7 +240,7 @@ namespace EvieCompilerSystem.InputOutput
 
         public void Return(int returnParamCount)
         {
-            _opcodes.Add(NanTags.EncodeOpcode('c', 'r', (ushort)returnParamCount, 0));
+            _opcodes.Add(NanTags.EncodeLongOpcode('c', 'r', returnParamCount));
         }
 
         /// <summary>

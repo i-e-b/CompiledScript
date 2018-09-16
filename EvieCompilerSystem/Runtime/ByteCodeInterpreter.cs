@@ -244,12 +244,8 @@ namespace EvieCompilerSystem.Runtime
 
                 // ret - pop return stack and jump to absolute position
                 case 'r':
-                    // set a special value for "void return" here, in case someone tries to use the result of a void function
-                    valueStack.Push(NanTags.VoidReturn()); // TODO: after a return, can we clear the stack down to a previous void return?
-                    /*if (returnStack.Count < 1) throw new Exception("Return stack empty. Check program logic");
-                    Variables.DropScope();
-                    position = returnStack.Pop();*/
-                    ReturnFunc(ref position, param, returnStack, valueStack);
+                    //valueStack.Push(NanTags.VoidReturn()); // TODO: after a return, can we clear the stack down to a previous void return?
+                    ReturnFunc(ref position, returnStack);
                     break;
             }
 
@@ -412,14 +408,8 @@ namespace EvieCompilerSystem.Runtime
             return NanTags.EncodeNonValue(NonValueType.Unit);
         }
 
-        private void ReturnFunc(ref int position, LinkedList<double> param, Stack<int> returnStack, Stack<double> valueStack)
+        private void ReturnFunc(ref int position, Stack<int> returnStack)
         {
-            if (param != null)
-            foreach (var v in param)
-                {
-                    valueStack.Push(v);
-                }
-
             if (returnStack.Count < 1) throw new Exception("Return stack empty. Check program logic");
             Variables.DropScope();
             position = returnStack.Pop();

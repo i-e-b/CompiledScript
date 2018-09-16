@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompiledScript", "CompiledScript\CompiledScript.csproj", "{23CC5194-87D5-43EB-A921-DDAE5B2BB335}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Info", "_Info", "{3EBC1FDE-D82F-4162-A000-E31BC8B3FE47}"
 	ProjectSection(SolutionItems) = preProject
 		README.MD = README.MD
@@ -20,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{23CC5194-87D5-43EB-A921-DDAE5B2BB335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23CC5194-87D5-43EB-A921-DDAE5B2BB335}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23CC5194-87D5-43EB-A921-DDAE5B2BB335}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23CC5194-87D5-43EB-A921-DDAE5B2BB335}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D58D57E-3979-426B-B894-F1295CE8A632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D58D57E-3979-426B-B894-F1295CE8A632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D58D57E-3979-426B-B894-F1295CE8A632}.Release|Any CPU.ActiveCfg = Release|Any CPU

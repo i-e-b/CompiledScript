@@ -29,7 +29,7 @@ namespace EvieCompilerSystem
             if (printIL)
             {
                 output.WriteLine("======= BYTE CODE SUMMARY ==========");
-                compiledOutput.AddSymbols(ByteCodeInterpreter.BuiltInFunctionSymbols());
+                compiledOutput.AddSymbols(ByteCodeInterpreter.BuildFunctionSymbols());
                 output.WriteLine(value: byteCodeReader.ToString(compiledOutput.GetSymbols()));
                 output.WriteLine("====================================");
             }

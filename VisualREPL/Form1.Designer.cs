@@ -53,7 +53,7 @@
             this.scriptInputBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.scriptInputBox.DetectUrls = false;
             this.scriptInputBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scriptInputBox.Font = new System.Drawing.Font("Dave", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scriptInputBox.Font = new System.Drawing.Font("Dave", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.scriptInputBox.HideSelection = false;
             this.scriptInputBox.Location = new System.Drawing.Point(0, 0);
             this.scriptInputBox.Name = "scriptInputBox";
@@ -67,7 +67,7 @@
             this.consoleTextBox.AcceptsReturn = true;
             this.consoleTextBox.AcceptsTab = true;
             this.consoleTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.consoleTextBox.Font = new System.Drawing.Font("Dave", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consoleTextBox.Font = new System.Drawing.Font("Dave", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consoleTextBox.HideSelection = false;
             this.consoleTextBox.Location = new System.Drawing.Point(0, 0);
             this.consoleTextBox.Multiline = true;

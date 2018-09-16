@@ -23,6 +23,7 @@ Parse and compile a prefix expression (source code) to a simple byte code.
 
 * [x] Underscores in numbers
 * [x] String interning / deduplication (compiler)
+* [ ] Remove hash->string->switch step in functions
 * [ ] Circular buffer in the repl console (steal from WebJony?)
 * [ ] Single step in repl gui
 * [ ] Runtime interpreter exceptions to give position

@@ -238,9 +238,9 @@ namespace EvieCompilerSystem.InputOutput
             _opcodes.Add(NanTags.EncodeOpcode('c', 't', 0, 0));
         }
 
-        public void Return()
+        public void Return(int returnParamCount)
         {
-            _opcodes.Add(NanTags.EncodeOpcode('c', 'r', 0, 0));
+            _opcodes.Add(NanTags.EncodeOpcode('c', 'r', (ushort)returnParamCount, 0));
         }
 
         /// <summary>

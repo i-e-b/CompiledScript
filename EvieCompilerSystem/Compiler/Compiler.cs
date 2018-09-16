@@ -371,11 +371,11 @@ namespace EvieCompilerSystem.Compiler
 
             if (debug)
             {
-                wr.Comment("// Function : \"" + funcName
-                          + "\" with " + node.Children.Count + " parameter(s)");
+                wr.Comment("// Function : \"" + funcName + "\" with " + node.Children.Count + " parameter(s)");
             }
 
-            wr.FunctionCall(node.Text, node.Children.Count);
+            if (node.Text == "return") { wr.Return(node.Children.Count); }
+            else { wr.FunctionCall(node.Text, node.Children.Count); }
 
             return (funcName == "return") && (node.Children.Count > 0); // is there a value return?
         }
@@ -427,7 +427,7 @@ namespace EvieCompilerSystem.Compiler
             else
             {
                 // Add the 'return' call
-                wr.Return();
+                wr.Return(0);
             }
 
             // Then the runner will need to interpret both the new op-codes

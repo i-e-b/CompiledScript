@@ -11,6 +11,7 @@ namespace EvieCompilerSystem.Runtime
     public class Scope
     {
         readonly LinkedList<Dictionary<ulong, double>> scopes;
+        private readonly object _lock = new object();
 
         /// <summary>
         /// Create a new empty value scope
@@ -45,17 +46,20 @@ namespace EvieCompilerSystem.Runtime
         /// </summary>
         private IEnumerable<KeyValuePair<ulong, double>> ListAllVisible()
         {
-            var seen = new HashSet<ulong>();
-            var scope = scopes.Last;
-            while (scope != null)
+            lock (_lock)
             {
-                foreach (var pair in scope.Value)
+                var seen = new HashSet<ulong>();
+                var scope = scopes.Last;
+                while (scope != null)
                 {
-                    if (seen.Contains(pair.Key)) continue;
-                    seen.Add(pair.Key);
-                    yield return pair;
+                    foreach (var pair in scope.Value)
+                    {
+                        if (seen.Contains(pair.Key)) continue;
+                        seen.Add(pair.Key);
+                        yield return pair;
+                    }
+                    scope = scope.Previous;
                 }
-                scope = scope.Previous;
             }
         }
 
@@ -74,43 +78,59 @@ namespace EvieCompilerSystem.Runtime
                     i++;
                 }
             }
-            scopes.AddLast(sd);
+            lock (_lock)
+            {
+                scopes.AddLast(sd);
+            }
         }
 
         /// <summary>
         /// Remove innermost scope, and drop back to the previous one
         /// </summary>
         public void DropScope() {
-            scopes.RemoveLast();
+            lock (_lock)
+            {
+                if (scopes.Last == scopes.First) throw new Exception("Tried to drop the global scope");
+                scopes.RemoveLast();
+            }
         }
 
         /// <summary>
         /// Read a value by name
         /// </summary>
         public double Resolve(ulong crushedName){
-            var current = scopes.Last;
-            while (current != null) {
-                if (current.Value.ContainsKey(crushedName)) return current.Value[crushedName];
-                current = current.Previous;
-            }
+            lock (_lock)
+            {
+                var current = scopes.Last;
+                while (current != null)
+                {
+                    if (current.Value.ContainsKey(crushedName)) return current.Value[crushedName];
+                    current = current.Previous;
+                }
 
-            throw new Exception("Could not resolve '" + crushedName.ToString("X") + "', check program logic");
+                throw new Exception("Could not resolve '" + crushedName.ToString("X") + "', check program logic");
+            }
         }
 
         /// <summary>
         /// Set a value by name. If no scope has it, then it will be defined in the innermost scope
         /// </summary>
         public void SetValue(ulong crushedName, double value) {
-            var current = scopes.Last;
-            while (current != null) {
-                if (current.Value.ContainsKey(crushedName)) {
-                    current.Value[crushedName] = value;
-                    return;
+            lock (_lock)
+            {
+                var current = scopes.Last;
+                while (current != null)
+                {
+                    if (current.Value.ContainsKey(crushedName))
+                    {
+                        current.Value[crushedName] = value;
+                        return;
+                    }
+                    current = current.Previous;
                 }
-                current = current.Previous;
-            }
 
-            scopes.Last.Value.Add(crushedName, value);
+                scopes.Last.Value.Add(crushedName, value);
+            }
         }
 
         /// <summary>
@@ -118,8 +138,11 @@ namespace EvieCompilerSystem.Runtime
         /// </summary>
         public void Clear()
         {
-            scopes.Clear();
-            scopes.AddLast(new Dictionary<ulong, double>()); // global scope
+            lock (_lock)
+            {
+                scopes.Clear();
+                scopes.AddLast(new Dictionary<ulong, double>()); // global scope
+            }
         }
 
         /// <summary>
@@ -127,12 +150,16 @@ namespace EvieCompilerSystem.Runtime
         /// </summary>
         public bool CanResolve(ulong crushedName)
         {
-            var current = scopes.Last;
-            while (current != null) {
-                if (current.Value.ContainsKey(crushedName)) return true;
-                current = current.Previous;
+            lock (_lock)
+            {
+                var current = scopes.Last;
+                while (current != null)
+                {
+                    if (current.Value.ContainsKey(crushedName)) return true;
+                    current = current.Previous;
+                }
+                return false;
             }
-            return false;
         }
 
         /// <summary>
@@ -144,8 +171,11 @@ namespace EvieCompilerSystem.Runtime
         /// </summary>
         public void Remove(ulong crushedName)
         {
-            if (scopes.First.Value.Remove(crushedName)) return;
-            scopes.Last.Value.Remove(crushedName);
+            lock (_lock)
+            {
+                if (scopes.First.Value.Remove(crushedName)) return;
+                scopes.Last.Value.Remove(crushedName);
+            }
         }
 
         /// <summary>
@@ -162,7 +192,15 @@ namespace EvieCompilerSystem.Runtime
         /// </summary>
         public bool InScope(ulong crushedName)
         {
-            return scopes.Last.Value.ContainsKey(crushedName);
+            lock (_lock)
+            {
+                return scopes.Last.Value.ContainsKey(crushedName);
+            }
+        }
+
+        public int Depth()
+        {
+            return scopes.Count;
         }
     }
 }

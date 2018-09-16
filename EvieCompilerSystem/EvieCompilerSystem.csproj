@@ -35,7 +35,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InputOutput\RuntimeMemoryModel.cs" />
+    <Compile Include="Runtime\RuntimeMemoryModel.cs" />
     <Compile Include="InputOutput\NanCodeWriter.cs" />
     <Compile Include="InputOutput\NanTags.cs" />
     <Compile Include="Repl.cs" />
